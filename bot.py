@@ -9,6 +9,7 @@ db_name = 'mydb'
 password = 'Z0mb%VtCazNLx*4v'
 sql_error = 'Įvyko klaida rašant į duomenų bazę.'
 token = '618535450:AAGSbVvcmhcKVaEX2ZBbw2aikgTbXgnEmF4'
+#testas ou je
 
 def day():
     return date.today()
@@ -202,7 +203,6 @@ def lineg(maxes, strings, delim):
     return temp
 
 def db(chat, amt, exp, desc, dt):
-    #chat_id = update.message.chat.id
     db = sqlite3.connect('mydb')
     try:
         cursor = db.cursor()
