@@ -9,7 +9,6 @@ db_name = 'mydb'
 password = 'Z0mb%VtCazNLx*4v'
 sql_error = 'Įvyko klaida rašant į duomenų bazę.'
 token = '618535450:AAGSbVvcmhcKVaEX2ZBbw2aikgTbXgnEmF4'
-#testas ou je
 
 def day():
     return date.today()
@@ -118,8 +117,8 @@ def stat(bot, update, args):
     if rows <= 0:
         reply = 'Įrašų nerasta.'
     else:
-        s = '```\nIšlaidos nuo ' + day_since + ':```'
-        s += '```\n\n'
+        s = '```\nIšlaidos nuo ' + day_since + ':'
+        s += '\n\n'
         result = cursor.fetchall()
         name1 = 'Kategorija'
         name2 = 'Suma, EUR'
@@ -167,11 +166,9 @@ def stat_det(bot, update, args):
         max2 = max(len(max((category.get(i[1]) for i in result), key=len)), len(name2))
         max3 = max(len(max((str(i[2].encode('utf8')) for i in result), key=len)), len(name3.decode('utf8')))
         max4 = max(len(max((str(i[3]) for i in result), key=len)), len(name4))
-        
 
         s += line_det(max1, max2, max3, max4, 'Data', 'Kategorija', 'Aprašymas', 'Suma, EUR', ' ')
         s += line_det(max1, max2, max3, max4, '', '', '', '', '-')
-        #print 'keke'
         for i in result:
             cat = category.get(i[1])
             s += line_det(max1, max2, max3, max4, str(i[0]), cat, str(i[2].encode('utf8')), str(i[3]), ' ')
@@ -187,15 +184,6 @@ def line(max1, max2, str1, str2, delim):
     return str1 + delim * (max1 - len(str1.decode('utf8')) + 1) + '|' + str2 + delim * (max2 - len(str2) + 1) + '\n'
     
 def line_det(max1, max2, max3, max4, str1, str2, str3, str4, delim):
-    temp = str1 + delim * (max1 - len(str1) + 1) + '|'
-    #temp += str2 + delim * (max2 - len(str2.decode('utf8')) + 1) + '|'
-    temp += str3 + delim * (max3 - len(str3.decode('utf8')) + 1) + '|'
-    temp += str4 + delim * (max4 - len(str4) + 1) + '\n'
-    return temp
-
-def lineg(maxes, strings, delim):
-    for i in maxes:
-        temp 
     temp = str1 + delim * (max1 - len(str1) + 1) + '|'
     temp += str2 + delim * (max2 - len(str2.decode('utf8')) + 1) + '|'
     temp += str3 + delim * (max3 - len(str3.decode('utf8')) + 1) + '|'
@@ -213,7 +201,6 @@ def db(chat, amt, exp, desc, dt):
         db.commit()
         
         result = cursor.execute('''SELECT sum(amt) FROM expenses INNER JOIN users ON users.chat_id = expenses.chat WHERE SUBSTR(dt,1,10) >= "''' + str(week()) + '''" AND chat=?''', (chat,))
-        #print 'nunu'
         return 'Išlaida įrašyta. Šią savaitę jau išleidote ' + str(result.fetchone()[0]) + ' EUR.'
     except Exception as e:
         db.rollback()
@@ -224,11 +211,9 @@ def db(chat, amt, exp, desc, dt):
 
 updater = Updater(token)
 
-#updater.dispatcher.add_handler(CommandHandler('hello', hello))
 updater.dispatcher.add_handler(CommandHandler('stat', stat, pass_args = True))
 updater.dispatcher.add_handler(CommandHandler('stat_det', stat_det, pass_args = True))
 updater.dispatcher.add_handler(MessageHandler(Filters.text, msg))
-#updater.dispatcher.add_handler(CommandHandler('start', start, pass_args = True))
 updater.dispatcher.add_handler(CommandHandler('user', user, pass_args = True))
 
 updater.start_polling()
